@@ -1,0 +1,17 @@
+---
+- name: Check for updates on Ubuntu
+  hosts: all
+  become: yes  # Run tasks with sudo
+
+  tasks:
+    - name: Update APT package cache
+      apt:
+        update_cache: yes
+
+    - name: Check for available updates
+      shell: apt list --upgradable
+      register: update_result
+
+    - name: Display available updates
+      debug:
+        var: update_result.stdout_lines
